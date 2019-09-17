@@ -178,7 +178,7 @@ void add(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<
 
 void sum(vector<vector<double>> &result, vector<vector<double>> matrix, int axis)
 {
-  // Axis meaning whether to sum x or y (row or col) (0 for y, 1 for x)
+  // Axis meaning whether to sum x or y (row or col) (2 for y, 1 for x, 0 for everything)
   vector<vector<double>> res;
   int row = matrix.size();
   int col = matrix[0].size();
@@ -195,7 +195,7 @@ void sum(vector<vector<double>> &result, vector<vector<double>> matrix, int axis
       res[i][0] = sum;
     }
   }
-  else
+  else if (axis == 2)
   {
     res = vector<vector<double>>(1, vector<double>(col, 0));
     for (int i = 0; i < col; i++)
@@ -207,6 +207,19 @@ void sum(vector<vector<double>> &result, vector<vector<double>> matrix, int axis
       }
       res[0][i] = sum;
     }
+  }
+  else
+  {
+    res = vector<vector<double>>(1, vector<double>(1, 0));
+    double sum = 0;
+    for (int i = 0; i < col; i++)
+    {
+      for (int j = 0; j < row; j++)
+      {
+        sum += matrix[j][i];
+      }
+    }
+    res[0][0] = sum;
   }
   result = res;
 }
@@ -224,4 +237,39 @@ void square(vector<vector<double>> &result, vector<vector<double>> matrix)
     }
   }
   result = res;
+}
+
+void meanAll(double &result, vector<vector<double>> matrix)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  double sum = 0;
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      sum += matrix[i][j];
+    }
+  }
+  result = sum / (row * col);
+}
+
+void stdAll(double &result, vector<vector<double>> matrix)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  double firstMean;
+  meanAll(firstMean, matrix);
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = matrix[i][j] - firstMean;
+    }
+  }
+  square(res, res);
+  double secondMean;
+  meanAll(secondMean, res);
+  result = sqrt(secondMean);
 }

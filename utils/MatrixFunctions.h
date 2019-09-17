@@ -11,5 +11,7 @@ void multMatrices(std::vector<std::vector<double>> &result, std::vector<std::vec
 void add(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrixA, std::vector<std::vector<double>> matrixB);
 void sum(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix, int axis);
 void square(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix);
+void meanAll(double &result, std::vector<std::vector<double>> matrix);
+void stdAll(double &result, std::vector<std::vector<double>> matrix);
 
 #endif

@@ -1,3 +1,4 @@
 /csv
 utils/csv
 *.exe
+/.vscode
