@@ -7,7 +7,7 @@
 class CNN
 {
 private:
-  
+  double randGaussian();
 
 public:
   void train();

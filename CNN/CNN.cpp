@@ -15,4 +15,12 @@ void CNN::test(vector<vector<vector<double>>> image)
   vector<vector<vector<vector<double>>>> filter2(8, vector<vector<vector<double>>>(8, vector<vector<double>>(5, vector<double>(5, 1))));
   convolution(res, res, filter2, bias);
   ReLU(res);
+  maxpool(res, res);
+  
+}
+
+double CNN::randGaussian()
+{
+  double r = ((double)rand() / (RAND_MAX));
+  return ((double)rand() / (RAND_MAX)) > 0.5 ? sqrt(-2 * log(r)) : -1 * sqrt(-2 * log(r));
 }

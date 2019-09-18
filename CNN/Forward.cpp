@@ -75,3 +75,83 @@ void ReLU(vector<vector<vector<double>>> &result)
   }
 }
 
+void maxpool(vector<vector<vector<double>>> &result, vector<vector<vector<double>>> image, int size, int stride)
+{
+  int img1 = image.size();
+  int img2 = image[0].size();
+  int img3 = image[0][0].size();
+  int w = (int)((img2 - size) / stride) + 1;
+  int h = (int)((img3 - size) / stride) + 1;
+  vector<vector<vector<double>>> res(img1, vector<vector<double>>(h, vector<double>(w, 0)));
+  for (int i = 0; i < img1; i++)
+  {
+    int curr_y = 0;
+    int out_y = 0;
+    while (curr_y + size <= img2)
+    {
+      int curr_x = 0;
+      int out_x = 0;
+      while (curr_x + size <= img2)
+      {
+        vector<vector<vector<double>>> imageSection;
+        for (int k = 0; k < img1; k++)
+        {
+          vector<vector<double>> temp2;
+          for (int i = curr_y; i < curr_y + size; i++)
+          {
+            vector<double> temp;
+            for (int j = curr_x; j < curr_x + size; j++)
+            {
+              temp.push_back(image[k][i][j]);
+            }
+            temp2.push_back(temp);
+          }
+          imageSection.push_back({temp2});
+        }
+        double max = imageSection[0][0][0];
+        for (int k = 0; k < imageSection[0][0].size(); k++)
+        {
+          for (int i = 1; i < imageSection.size(); i++)
+          {
+            for (int j = 0; j < imageSection[0].size(); j++)
+            {
+              if (imageSection[i][j][k] > max)
+                max = imageSection[i][j][k];
+            }
+          }
+        }
+        res[i][out_y][out_x] = max;
+
+        curr_x += stride;
+        out_x++;
+      }
+      curr_y += stride;
+      out_y++;
+    }
+  }
+  result = res;
+}
+
+void softmax(vector<vector<double>> &result, vector<vector<double>> X)
+{
+  int row = X.size();
+  int col = X[0].size();
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = exp(X[i][j]);
+    }
+  }
+  vector<vector<double>> sumAll;
+  sum(sumAll, res, 0);
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] /= sumAll[0][0];
+    }
+  }
+  result = res;
+}
