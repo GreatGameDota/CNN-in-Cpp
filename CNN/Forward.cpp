@@ -27,21 +27,26 @@ void convolution(vector<vector<vector<double>>> &result, vector<vector<vector<do
       int out_x = 0;
       while (curr_x + filt3 <= img2)
       {
-        vector<vector<double>> imageSection;
-        for (int i = curr_y; i < curr_y + filt3; i++)
+        vector<vector<vector<double>>> imageSection;
+        for (int k = 0; k < filt2; k++)
         {
-          vector<double> temp;
-          for (int j = curr_x; j < curr_x + filt3; j++)
+          vector<vector<double>> temp2;
+          for (int i = curr_y; i < curr_y + filt3; i++)
           {
-            temp.push_back(image[0][i][j]);
+            vector<double> temp;
+            for (int j = curr_x; j < curr_x + filt3; j++)
+            {
+              temp.push_back(image[k][i][j]);
+            }
+            temp2.push_back(temp);
           }
-          imageSection.push_back(temp);
+          imageSection.push_back({temp2});
         }
-        vector<vector<double>> res2;
-        multMatrices(res2, filter[curr_f][0], imageSection);
-        sum(res2, res2, 0);
-        res2[0][0] += bias[curr_f][0];
-        res[curr_f][out_y][out_x] = res2[0][0];
+        vector<vector<vector<double>>> res2;
+        multMatrices3D(res2, filter[curr_f], imageSection);
+        sum3D(res2, res2, 0);
+        res2[0][0][0] += bias[curr_f][0];
+        res[curr_f][out_y][out_x] = res2[0][0][0];
 
         curr_x += stride;
         out_x++;
@@ -52,3 +57,21 @@ void convolution(vector<vector<vector<double>>> &result, vector<vector<vector<do
   }
   result = res;
 }
+
+void ReLU(vector<vector<vector<double>>> &result)
+{
+  for (int i = 0; i < result.size(); i++)
+  {
+    for (int j = 0; j < result[0].size(); j++)
+    {
+      for (int k = 0; k < result[0][0].size(); k++)
+      {
+        if (result[i][j][k] < 0)
+        {
+          result[i][j][k] = 0;
+        }
+      }
+    }
+  }
+}
+

@@ -14,7 +14,7 @@ public:
   void adamGD();
   void conv();
 
-  void test();
+  void test(std::vector<std::vector<std::vector<double>>> image);
 };
 
 #endif

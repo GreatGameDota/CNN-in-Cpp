@@ -99,6 +99,28 @@ void multMatrices(vector<vector<double>> &result, vector<vector<double>> matrixA
   result = res;
 }
 
+void multMatrices3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>> matrixA, vector<vector<vector<double>>> matrixB)
+{
+  int rowA = matrixA.size();
+  int colA = matrixA[0].size();
+  int rowB = matrixB.size();
+  int colB = matrixB[0].size();
+  if (rowA * colA * matrixA[0][0].size() != rowB * colB * matrixA[0][0].size())
+  {
+    cout << "MultMatrices3D Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<vector<double>>> res(rowA, vector<vector<double>>(colA, vector<double>(matrixA[0][0].size(), 0)));
+  for (int i = 0; i < rowA; i++)
+  {
+    for (int j = 0; j < colA; j++)
+    {
+      for (int k = 0; k < matrixA[0][0].size(); k++)
+        res[i][j][k] = matrixA[i][j][k] * matrixB[i][j][k];
+    }
+  }
+  result = res;
+}
+
 void add(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<vector<double>> matrixB)
 {
   int rowA = matrixA.size();
@@ -221,6 +243,24 @@ void sum(vector<vector<double>> &result, vector<vector<double>> matrix, int axis
     }
     res[0][0] = sum;
   }
+  result = res;
+}
+
+void sum3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>> matrix, int axis)
+{
+  int row = matrix[0].size();
+  int col = matrix[0][0].size();
+  vector<vector<vector<double>>> res(1, vector<vector<double>>(1, vector<double>(1, 0)));
+  double sum = 0;
+  for (int i = 0; i < matrix.size(); i++)
+  {
+    for (int j = 0; j < row; j++)
+    {
+      for (int k = 0; k < col; k++)
+        sum += matrix[i][j][k];
+    }
+  }
+  res[0][0][0] = sum;
   result = res;
 }
 

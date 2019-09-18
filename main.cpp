@@ -119,15 +119,15 @@ int main()
     }
   }
   total.push_back(temp1);
-  for (auto &row : total)
-  {
-    for (auto &col : row)
-    {
-      cout << col << " ";
-    }
-    cout << endl;
-  }
-  cout << endl;
+  // for (auto &row : total)
+  // {
+  //   for (auto &col : row)
+  //   {
+  //     cout << col << " ";
+  //   }
+  //   cout << endl;
+  // }
+  // cout << endl;
 
   transpose(X_train, total);
   Y_train.push_back({1});
@@ -218,10 +218,10 @@ int main()
 
   vector<vector<vector<double>>> data;
   data.push_back(resulty);
-  cout << fixed << setprecision(2);
+  // cout << fixed << setprecision(2);
   cout << endl;
   CNN first;
-  first.test();
+  first.test(data);
 
   finish();
   // system("pause");

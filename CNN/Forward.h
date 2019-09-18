@@ -5,6 +5,7 @@
 #include <cmath>
 
 void convolution(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> image, std::vector<std::vector<std::vector<std::vector<double>>>> filter, std::vector<std::vector<double>> bias, int stride = 1);
+void ReLU(std::vector<std::vector<std::vector<double>>> &result);
 void maxpool();
 void softmax();
 void categoricalCrossEntropy();
