@@ -155,3 +155,20 @@ void softmax(vector<vector<double>> &result, vector<vector<double>> X)
   }
   result = res;
 }
+
+void categoricalCrossEntropy(double &result, vector<vector<double>> probs, int label)
+{
+  int row = probs.size();
+  int col = probs[0].size();
+  vector<vector<double>> temp(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      temp[i][j] = log(probs[i][j]);
+    }
+  }
+  mult(temp, temp, label);
+  sum(temp, temp, 0);
+  result = -1 * temp[0][0];
+}

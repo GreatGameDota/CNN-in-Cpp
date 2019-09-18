@@ -8,6 +8,6 @@ void convolution(std::vector<std::vector<std::vector<double>>> &result, std::vec
 void ReLU(std::vector<std::vector<std::vector<double>>> &result);
 void maxpool(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> image, int size = 2, int stride = 2);
 void softmax(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> X);
-void categoricalCrossEntropy();
+void categoricalCrossEntropy(double &result, std::vector<std::vector<double>> probs, int label);
 
 #endif

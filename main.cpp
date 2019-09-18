@@ -181,6 +181,7 @@ int main()
   vector<string> test2;
   getRow(test2, "mnist_train", 0);
   // cout << stoi(test2[0]) << endl;
+  int label = stoi(test2[0]);
   vector<vector<double>> mnist1;
   int index = 1;
   for (int i = 0; i < 28; i++)
@@ -221,7 +222,7 @@ int main()
   // cout << fixed << setprecision(2);
   cout << endl;
   CNN first;
-  first.test(data);
+  first.conv(data, label);
 
   finish();
   // system("pause");

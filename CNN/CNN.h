@@ -12,9 +12,7 @@ private:
 public:
   void train();
   void adamGD();
-  void conv();
-
-  void test(std::vector<std::vector<std::vector<double>>> image);
+  void conv(std::vector<std::vector<std::vector<double>>> image, int label);
 };
 
 #endif
