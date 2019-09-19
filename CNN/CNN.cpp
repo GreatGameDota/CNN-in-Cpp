@@ -7,18 +7,20 @@
 void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> label)
 {
   // Forward
-  vector<vector<vector<double>>> res;
   vector<vector<vector<vector<double>>>> filter(8, vector<vector<vector<double>>>(1, vector<vector<double>>(5, vector<double>(5, 1))));
   vector<vector<double>> bias(8, vector<double>(1, 0));
-  convolution(res, image, filter, bias);
-  ReLU(res);
+  vector<vector<vector<double>>> conv1;
+  convolution(conv1, image, filter, bias);
+  ReLU(conv1);
   vector<vector<vector<vector<double>>>> filter2(8, vector<vector<vector<double>>>(8, vector<vector<double>>(5, vector<double>(5, 1))));
-  convolution(res, res, filter2, bias);
-  ReLU(res);
-  maxpool(res, res);
+  vector<vector<vector<double>>> conv2;
+  convolution(conv2, conv1, filter2, bias);
+  ReLU(conv2);
+  vector<vector<vector<double>>> pooled;
+  maxpool(pooled, conv2);
   // Fully connected
   vector<vector<double>> flat;
-  for (auto &row : res)
+  for (auto &row : pooled)
   {
     for (auto &col : row)
     {
@@ -103,6 +105,10 @@ void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> labe
     }
     dpool.push_back({temp1});
   }
+  vector<vector<vector<double>>> dconv2;
+  maxpoolBackward(dconv2, dpool, conv2);
+  vector<vector<vector<double>>> dconv1;
+  convolutionBackward(dconv1, dconv2, conv1, filter2);
 
   // for (auto &row : dpool)
   // {
