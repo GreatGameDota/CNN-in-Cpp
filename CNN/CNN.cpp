@@ -4,10 +4,10 @@
 #include "Backward.h"
 #include "../common.h"
 
-void CNN::conv(vector<vector<vector<double>>> image, int label)
+void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> label)
 {
+  // Forward
   vector<vector<vector<double>>> res;
-  // vector<vector<vector<double>>> image(1, vector<vector<double>>(28, vector<double>(28, 0)));
   vector<vector<vector<vector<double>>>> filter(8, vector<vector<vector<double>>>(1, vector<vector<double>>(5, vector<double>(5, 1))));
   vector<vector<double>> bias(8, vector<double>(1, 0));
   convolution(res, image, filter, bias);
@@ -51,7 +51,71 @@ void CNN::conv(vector<vector<vector<double>>> image, int label)
   softmax(probs, out);
   double loss;
   categoricalCrossEntropy(loss, probs, label);
-  cout << loss << endl;
+  cout << loss << endl
+       << endl;
+
+  // Backward
+  vector<vector<double>> dout;
+  sub(dout, probs, label);
+  vector<vector<double>> zT;
+  transpose(zT, z);
+  vector<vector<double>> dW4;
+  dot(dW4, dout, zT);
+  vector<vector<double>> db4;
+  sum(db4, dout, 1);
+
+  vector<vector<double>> w4T;
+  transpose(w4T, w4);
+  vector<vector<double>> dz;
+  dot(dz, w4T, dout);
+  for (int i = 0; i < dz.size(); i++)
+  {
+    for (int j = 0; j < dz[0].size(); j++)
+    {
+      if (dz[i][j] < 0)
+        dz[i][j] = 0;
+    }
+  }
+  vector<vector<double>> flatT;
+  transpose(flatT, flat);
+  vector<vector<double>> dW3;
+  dot(dW3, dz, flatT);
+  vector<vector<double>> db3;
+  sum(db3, dz, 1);
+  vector<vector<double>> w3T;
+  transpose(w3T, w3);
+  vector<vector<double>> dFlat;
+  dot(dFlat, w3T, dz);
+  vector<vector<vector<double>>> dpool;
+  int index = 0;
+  for (int i = 0; i < 8; i++)
+  {
+    vector<vector<double>> temp1;
+    for (int j = 0; j < 10; j++)
+    {
+      vector<double> temp2;
+      for (int k = 0; k < 10; k++)
+      {
+        temp2.push_back(dFlat[index][0]);
+        index++;
+      }
+      temp1.push_back({temp2});
+    }
+    dpool.push_back({temp1});
+  }
+
+  // for (auto &row : dpool)
+  // {
+  //   for (auto &col : row)
+  //   {
+  //     for (auto &ele : col)
+  //     {
+  //       cout << ele << " ";
+  //     }
+  //     cout << endl;
+  //   }
+  //   cout << endl;
+  // }
 }
 
 double CNN::randGaussian()

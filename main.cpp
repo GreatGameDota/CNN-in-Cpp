@@ -216,13 +216,15 @@ int main()
       resulty[i][j] = resulty[i][j] / realSTD;
     }
   }
+  vector<vector<double>> lab(10, vector<double>(1, 0));
+  lab[label][0] = 1;
 
   vector<vector<vector<double>>> data;
   data.push_back(resulty);
   // cout << fixed << setprecision(2);
   cout << endl;
   CNN first;
-  first.conv(data, label);
+  first.conv(data, lab);
 
   finish();
   // system("pause");

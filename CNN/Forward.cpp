@@ -156,7 +156,7 @@ void softmax(vector<vector<double>> &result, vector<vector<double>> X)
   result = res;
 }
 
-void categoricalCrossEntropy(double &result, vector<vector<double>> probs, int label)
+void categoricalCrossEntropy(double &result, vector<vector<double>> probs, vector<vector<double>> label)
 {
   int row = probs.size();
   int col = probs[0].size();
@@ -168,7 +168,7 @@ void categoricalCrossEntropy(double &result, vector<vector<double>> probs, int l
       temp[i][j] = log(probs[i][j]);
     }
   }
-  mult(temp, temp, label);
+  multMatrices(temp, temp, label);
   sum(temp, temp, 0);
   result = -1 * temp[0][0];
 }
