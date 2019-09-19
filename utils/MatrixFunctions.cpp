@@ -105,7 +105,7 @@ void multMatrices3D(vector<vector<vector<double>>> &result, vector<vector<vector
   int colA = matrixA[0].size();
   int rowB = matrixB.size();
   int colB = matrixB[0].size();
-  if (rowA * colA * matrixA[0][0].size() != rowB * colB * matrixA[0][0].size())
+  if (rowA * colA * matrixA[0][0].size() != rowB * colB * matrixB[0][0].size())
   {
     cout << "MultMatrices3D Function error: Dimensions are not the same" << endl;
   }
@@ -312,4 +312,44 @@ void stdAll(double &result, vector<vector<double>> matrix)
   double secondMean;
   meanAll(secondMean, res);
   result = sqrt(secondMean);
+}
+
+void mult3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<double>>> res(row, vector<vector<double>>(col, vector<double>(matrix[0][0].size(), 0)));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        res[i][j][k] = matrix[i][j][k] * n;
+      }
+    }
+  }
+  result = res;
+}
+
+void add3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>> matrixA, vector<vector<vector<double>>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col * matrixA[0][0].size() != matrixB.size() * matrixB[0].size() * matrixB[0][0].size())
+  {
+    cout << "Add3D Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<vector<double>>> res(row, vector<vector<double>>(col, vector<double>(matrixA[0][0].size(), 0)));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrixA[0][0].size(); k++)
+      {
+        res[i][j][k] = matrixA[i][j][k] + matrixB[i][j][k];
+      }
+    }
+  }
+  result = res;
 }

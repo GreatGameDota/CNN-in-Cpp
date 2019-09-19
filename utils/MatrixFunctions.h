@@ -15,5 +15,7 @@ void sum3D(std::vector<std::vector<std::vector<double>>> &result, std::vector<st
 void square(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix);
 void meanAll(double &result, std::vector<std::vector<double>> matrix);
 void stdAll(double &result, std::vector<std::vector<double>> matrix);
+void mult3D(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> matrix, double n);
+void add3D(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> matrixA, std::vector<std::vector<std::vector<double>>> matrixB);
 
 #endif

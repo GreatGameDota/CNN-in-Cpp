@@ -108,9 +108,11 @@ void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> labe
   vector<vector<vector<double>>> dconv2;
   maxpoolBackward(dconv2, dpool, conv2);
   vector<vector<vector<double>>> dconv1;
-  convolutionBackward(dconv1, dconv2, conv1, filter2);
-
-  // for (auto &row : dpool)
+  vector<vector<vector<vector<double>>>> df2;
+  vector<vector<double>> db2;
+  convolutionBackward(dconv1, df2, db2, dconv2, conv1, filter2);
+  
+  // for (auto &row : dconv1)
   // {
   //   for (auto &col : row)
   //   {
