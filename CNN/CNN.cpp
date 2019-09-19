@@ -4,7 +4,30 @@
 #include "Backward.h"
 #include "../common.h"
 
-void CNN::conv(vector<vector<vector<vector<double>>>> &_df1, vector<vector<vector<vector<double>>>> &_df2, vector<vector<double>> &_dw3, vector<vector<double>> &_dw4, vector<vector<double>> &_db1, vector<vector<double>> &_db2, vector<vector<double>> &_db3, vector<vector<double>> &_db4, vector<vector<vector<double>>> image, vector<vector<double>> label)
+void CNN::adamGD(int imageAmount, vector<vector<vector<vector<double>>>> images, vector<int> labels)
+{
+  double _cost = 0;
+  for (int i = 0; i < imageAmount; i++)
+  {
+    vector<vector<double>> label(10, vector<double>(1, 0));
+    label[labels[i]][0] = 1;
+
+    double loss;
+    vector<vector<vector<vector<double>>>> df1;
+    vector<vector<vector<vector<double>>>> df2;
+    vector<vector<double>> dw3;
+    vector<vector<double>> dw4;
+    vector<vector<double>> db1;
+    vector<vector<double>> db2;
+    vector<vector<double>> db3;
+    vector<vector<double>> db4;
+    conv(loss, df1, df2, dw3, dw4, db1, db2, db3, db4, images[i], label);
+    cout << loss << endl;
+    _cost += loss;
+  }
+}
+
+void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vector<vector<vector<vector<double>>>> &_df2, vector<vector<double>> &_dw3, vector<vector<double>> &_dw4, vector<vector<double>> &_db1, vector<vector<double>> &_db2, vector<vector<double>> &_db3, vector<vector<double>> &_db4, vector<vector<vector<double>>> image, vector<vector<double>> label)
 {
   // Forward
   vector<vector<vector<vector<double>>>> filter(8, vector<vector<vector<double>>>(1, vector<vector<double>>(5, vector<double>(5, 1))));
@@ -48,14 +71,10 @@ void CNN::conv(vector<vector<vector<vector<double>>>> &_df1, vector<vector<vecto
   vector<vector<double>> out;
   dot(out, w4, z);
   add(out, out, b4);
-
   vector<vector<double>> probs;
   softmax(probs, out);
   double loss;
   categoricalCrossEntropy(loss, probs, label);
-  cout << loss << endl
-       << endl;
-
   // Backward
   vector<vector<double>> dout;
   sub(dout, probs, label);
@@ -65,7 +84,6 @@ void CNN::conv(vector<vector<vector<vector<double>>>> &_df1, vector<vector<vecto
   dot(dW4, dout, zT);
   vector<vector<double>> db4;
   sum(db4, dout, 1);
-
   vector<vector<double>> w4T;
   transpose(w4T, w4);
   vector<vector<double>> dz;
@@ -116,6 +134,7 @@ void CNN::conv(vector<vector<vector<vector<double>>>> &_df1, vector<vector<vecto
   vector<vector<double>> db1;
   convolutionBackward(_, df1, db1, dconv1, image, filter);
 
+  _loss = loss;
   _df1 = df1;
   _df2 = df2;
   _dw3 = dW3;

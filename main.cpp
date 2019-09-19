@@ -181,7 +181,8 @@ int main()
   vector<string> test2;
   getRow(test2, "mnist_train", 0);
   // cout << stoi(test2[0]) << endl;
-  int label = stoi(test2[0]);
+  vector<int> labels;
+  labels.push_back(stoi(test2[0]));
   vector<vector<double>> mnist1;
   int index = 1;
   for (int i = 0; i < 28; i++)
@@ -216,24 +217,11 @@ int main()
       resulty[i][j] = resulty[i][j] / realSTD;
     }
   }
-  vector<vector<double>> lab(10, vector<double>(1, 0));
-  lab[label][0] = 1;
-
-  vector<vector<vector<double>>> data;
-  data.push_back(resulty);
-  // cout << fixed << setprecision(2);
+  vector<vector<vector<vector<double>>>> data;
+  data.push_back({resulty});
   cout << endl;
   CNN first;
-  vector<vector<vector<vector<double>>>> df1;
-  vector<vector<vector<vector<double>>>> df2;
-  vector<vector<double>> dw3;
-  vector<vector<double>> dw4;
-  vector<vector<double>> db1;
-  vector<vector<double>> db2;
-  vector<vector<double>> db3;
-  vector<vector<double>> db4;
-  first.conv(df1, df2, dw3, dw4, db1, db2, db3, db4, data, lab);
-
+  first.adamGD(data.size(), data, labels);
   finish();
   // system("pause");
 }
