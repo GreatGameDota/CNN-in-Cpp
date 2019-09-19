@@ -224,7 +224,15 @@ int main()
   // cout << fixed << setprecision(2);
   cout << endl;
   CNN first;
-  first.conv(data, lab);
+  vector<vector<vector<vector<double>>>> df1;
+  vector<vector<vector<vector<double>>>> df2;
+  vector<vector<double>> dw3;
+  vector<vector<double>> dw4;
+  vector<vector<double>> db1;
+  vector<vector<double>> db2;
+  vector<vector<double>> db3;
+  vector<vector<double>> db4;
+  first.conv(df1, df2, dw3, dw4, db1, db2, db3, db4, data, lab);
 
   finish();
   // system("pause");

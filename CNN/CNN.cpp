@@ -4,7 +4,7 @@
 #include "Backward.h"
 #include "../common.h"
 
-void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> label)
+void CNN::conv(vector<vector<vector<vector<double>>>> &_df1, vector<vector<vector<vector<double>>>> &_df2, vector<vector<double>> &_dw3, vector<vector<double>> &_dw4, vector<vector<double>> &_db1, vector<vector<double>> &_db2, vector<vector<double>> &_db3, vector<vector<double>> &_db4, vector<vector<vector<double>>> image, vector<vector<double>> label)
 {
   // Forward
   vector<vector<vector<vector<double>>>> filter(8, vector<vector<vector<double>>>(1, vector<vector<double>>(5, vector<double>(5, 1))));
@@ -111,16 +111,32 @@ void CNN::conv(vector<vector<vector<double>>> image, vector<vector<double>> labe
   vector<vector<vector<vector<double>>>> df2;
   vector<vector<double>> db2;
   convolutionBackward(dconv1, df2, db2, dconv2, conv1, filter2);
-  
-  // for (auto &row : dconv1)
+  vector<vector<vector<double>>> _;
+  vector<vector<vector<vector<double>>>> df1;
+  vector<vector<double>> db1;
+  convolutionBackward(_, df1, db1, dconv1, image, filter);
+
+  _df1 = df1;
+  _df2 = df2;
+  _dw3 = dW3;
+  _dw4 = dW4;
+  _db1 = db1;
+  _db2 = db2;
+  _db3 = db3;
+  _db4 = db4;
+
+  // for (auto &row : df1)
   // {
   //   for (auto &col : row)
   //   {
   //     for (auto &ele : col)
   //     {
-  //       cout << ele << " ";
+  //       for (auto &ele2 : ele)
+  //       {
+  //         cout << ele2 << " ";
+  //       }
+  //       cout << endl;
   //     }
-  //     cout << endl;
   //   }
   //   cout << endl;
   // }
