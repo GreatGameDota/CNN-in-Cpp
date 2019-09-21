@@ -7,7 +7,7 @@ int main()
 {
   // startTimer();
   CNN model;
-  int dataAmount = 50;
+  int dataAmount = 1000;
   cout << "Training model with " << dataAmount << " images...\n\n";
   model.train(2, dataAmount);
   // finish();
