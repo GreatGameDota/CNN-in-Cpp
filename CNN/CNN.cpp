@@ -1,19 +1,39 @@
 #include "CNN.h"
 #include "../utils/MatrixFunctions.h"
+#include "../utils/CSVReader.h"
+#include "../utils/TimeElapsed.h"
 #include "Forward.h"
 #include "Backward.h"
 #include "../common.h"
 
-void CNN::train(int epochs, int imageAmount, vector<vector<vector<vector<double>>>> images, vector<int> labels)
+void CNN::train(int epochs, int dataAmount)
 {
+  int imageAmount = dataAmount;
+  int epoch = 0;
+  int batchSize = 32;
   vector<double> costs;
   for (int i = 0; i < epochs; i++)
   {
-    adamGD(imageAmount, images, labels, costs);
+    cout << "\rEpoch: 0 Cost: N/A | ";
+    cout << "0% | 0/" << (imageAmount / batchSize + 1) << " | ";
+    cout << "[--m --s --ms per iter]";
+    for (int j = 0; j < imageAmount / batchSize + 1; j++)
+    {
+      epoch++;
+      startTimer();
+      adamGD(imageAmount, costs);
+      cout << fixed << setprecision(10);
+      cout << "\rEpoch: " << epoch << " Cost: " << costs.back() << " | ";
+      cout << (int)(((double)(j + 1) / (imageAmount / batchSize + 1)) * 100) << "% | " << j + 1 << "/" << (imageAmount / batchSize + 1) << " | ";
+      long min, sec, milli;
+      finish(min, sec, milli);
+      cout << "[" << min << "m " << sec << "s " << milli << "ms per iter]";
+    }
+    cout << endl;
   }
 }
 
-void CNN::adamGD(int imageAmount, vector<vector<vector<vector<double>>>> images, vector<int> labels, vector<double> &cost)
+void CNN::adamGD(int imageAmount, vector<double> &cost)
 {
   double _cost = 0;
   // Initialize gradients and momentum, RMS params
@@ -46,8 +66,11 @@ void CNN::adamGD(int imageAmount, vector<vector<vector<vector<double>>>> images,
 
   for (int i = 0; i < imageAmount; i++)
   {
+    vector<vector<vector<double>>> image;
+    int _label;
+    getMNISTData(image, _label, i, "mnist_train");
     vector<vector<double>> label(10, vector<double>(1, 0));
-    label[labels[i]][0] = 1;
+    label[_label][0] = 1;
     double loss;
     vector<vector<vector<vector<double>>>> _df1;
     vector<vector<vector<vector<double>>>> _df2;
@@ -57,8 +80,7 @@ void CNN::adamGD(int imageAmount, vector<vector<vector<vector<double>>>> images,
     vector<vector<double>> _db2;
     vector<vector<double>> _db3;
     vector<vector<double>> _db4;
-    conv(loss, _df1, _df2, _dw3, _dw4, _db1, _db2, _db3, _db4, images[i], label);
-    cout << loss << endl;
+    conv(loss, _df1, _df2, _dw3, _dw4, _db1, _db2, _db3, _db4, image, label);
     _cost += loss;
     add4D(df1, df1, _df1);
     add4D(df2, df2, _df2);
@@ -319,39 +341,142 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   _db2 = db2;
   _db3 = db3;
   _db4 = db4;
-
-  // for (auto &row : df1)
-  // {
-  //   for (auto &col : row)
-  //   {
-  //     for (auto &ele : col)
-  //     {
-  //       for (auto &ele2 : ele)
-  //       {
-  //         cout << ele2 << " ";
-  //       }
-  //       cout << endl;
-  //     }
-  //   }
-  //   cout << endl;
-  // }
 }
 
-CNN::CNN(vector<vector<int>> _params)
+CNN::CNN()
 {
-  params = _params;
-  f1 = vector<vector<vector<vector<double>>>>(_params[0][0], vector<vector<vector<double>>>(_params[0][1], vector<vector<double>>(_params[0][2], vector<double>(_params[0][3], 1))));
-  b1 = vector<vector<double>>(_params[4][0], vector<double>(_params[4][1], 0));
-  f2 = vector<vector<vector<vector<double>>>>(_params[1][0], vector<vector<vector<double>>>(_params[1][1], vector<vector<double>>(_params[1][2], vector<double>(_params[1][3], 1))));
-  b2 = vector<vector<double>>(_params[5][0], vector<double>(_params[5][1], 0));
-  w3 = vector<vector<double>>(_params[2][0], vector<double>(_params[2][1], .00001));
-  b3 = vector<vector<double>>(_params[6][0], vector<double>(_params[6][1], 0));
-  w4 = vector<vector<double>>(_params[3][0], vector<double>(_params[3][1], .00001));
-  b4 = vector<vector<double>>(_params[7][0], vector<double>(_params[7][1], 0));
+  params.push_back({8, 1, 5, 5}); // f1
+  params.push_back({8, 8, 5, 5}); // f2
+  params.push_back({128, 800});   // w3
+  params.push_back({10, 128});    // w4
+  params.push_back({8, 1});       // b1
+  params.push_back({8, 1});       // b2
+  params.push_back({128, 1});     // b3
+  params.push_back({10, 1});      // b4
+  f1 = vector<vector<vector<vector<double>>>>(params[0][0], vector<vector<vector<double>>>(params[0][1], vector<vector<double>>(params[0][2], vector<double>(params[0][3], 0))));
+  f2 = vector<vector<vector<vector<double>>>>(params[1][0], vector<vector<vector<double>>>(params[1][1], vector<vector<double>>(params[1][2], vector<double>(params[1][3], 0))));
+  w3 = vector<vector<double>>(params[2][0], vector<double>(params[2][1], 0));
+  w4 = vector<vector<double>>(params[3][0], vector<double>(params[3][1], 0));
+  b1 = vector<vector<double>>(params[4][0], vector<double>(params[4][1], 0));
+  b2 = vector<vector<double>>(params[5][0], vector<double>(params[5][1], 0));
+  b3 = vector<vector<double>>(params[6][0], vector<double>(params[6][1], 0));
+  b4 = vector<vector<double>>(params[7][0], vector<double>(params[7][1], 0));
+  initializeParameters();
+}
+
+void CNN::initializeParameters()
+{
+  srand(time(NULL));
+  double dev1 = 1 / sqrt(f1.size() * f1[0].size() * f1[0][0].size() * f1[0][0][0].size());
+  double dev2 = 1 / sqrt(f2.size() * f2[0].size() * f2[0][0].size() * f2[0][0][0].size());
+  for (int i = 0; i < f1.size(); i++)
+  {
+    for (int j = 0; j < f1[0].size(); j++)
+    {
+      for (int k = 0; k < f1[0][0].size(); k++)
+      {
+        for (int l = 0; l < f1[0][0][0].size(); l++)
+        {
+          double f = (double)rand() / RAND_MAX;
+          double r = f * 4 - 2;
+          f1[i][j][k][l] = dev1 * exp(-1 * ((r * r) / 2));
+          if (((double)rand() / (RAND_MAX)) > 0.5)
+          {
+            f1[i][j][k][l] *= -1;
+          }
+          else
+          {
+            f1[i][j][k][l] *= 1;
+          }
+        }
+      }
+    }
+  }
+  for (int i = 0; i < f2.size(); i++)
+  {
+    for (int j = 0; j < f2[0].size(); j++)
+    {
+      for (int k = 0; k < f2[0][0].size(); k++)
+      {
+        for (int l = 0; l < f2[0][0][0].size(); l++)
+        {
+          double f = (double)rand() / RAND_MAX;
+          double r = f * 6 - 3;
+          f2[i][j][k][l] = dev2 * exp(-1 * ((r * r) / 2));
+          if (((double)rand() / (RAND_MAX)) > 0.5)
+          {
+            f2[i][j][k][l] *= -1;
+          }
+          else
+          {
+            f2[i][j][k][l] *= 1;
+          }
+        }
+      }
+    }
+  }
+  for (int i = 0; i < w3.size(); i++)
+  {
+    for (int j = 0; j < w3[0].size(); j++)
+    {
+      w3[i][j] = randGaussian() * 0.01;
+    }
+  }
+  for (int i = 0; i < w4.size(); i++)
+  {
+    for (int j = 0; j < w4[0].size(); j++)
+    {
+      w4[i][j] = randGaussian() * 0.01;
+    }
+  }
 }
 
 double CNN::randGaussian()
 {
   double r = ((double)rand() / (RAND_MAX));
-  return ((double)rand() / (RAND_MAX)) > 0.5 ? sqrt(-2 * log(r)) : -1 * sqrt(-2 * log(r));
+  return min(1.0, (((double)rand() / (RAND_MAX)) > 0.5 ? sqrt(-2 * log(r + .05)) : -1 * sqrt(-2 * log(r + .05))));
+  // double f = (double)rand() / RAND_MAX;
+  // double r = f * 6 - 3;
+  // return exp(-1 * ((r * r) / 2));
+}
+
+void CNN::getMNISTData(vector<vector<vector<double>>> &d, int &l, int rowNum, string fileName)
+{
+  vector<string> read;
+  getRow(read, fileName, rowNum);
+  l = stoi(read[0]);
+  vector<vector<double>> mnist1;
+  int index = 1;
+  for (int i = 0; i < 28; i++)
+  {
+    vector<double> temp;
+    for (int j = 0; j < 28; j++)
+    {
+      temp.push_back(stoi(read[index]));
+      index++;
+    }
+    mnist1.push_back(temp);
+  }
+  double mean1;
+  meanAll(mean1, mnist1);
+  int realMean = (int)mean1;
+  vector<vector<double>> result(28, vector<double>(28, 0));
+  for (int i = 0; i < 28; i++)
+  {
+    for (int j = 0; j < 28; j++)
+    {
+      result[i][j] = mnist1[i][j] - realMean;
+    }
+  }
+  double stdVal;
+  stdAll(stdVal, result);
+  int intSTD = (int)stdVal;
+  for (int i = 0; i < 28; i++)
+  {
+    for (int j = 0; j < 28; j++)
+    {
+      result[i][j] = result[i][j] / intSTD;
+    }
+  }
+  d.push_back(result);
 }

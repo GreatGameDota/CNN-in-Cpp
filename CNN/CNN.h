@@ -2,6 +2,7 @@
 #define CNN_H
 
 #include <vector>
+#include <string>
 
 class CNN
 {
@@ -19,14 +20,16 @@ private:
   std::vector<std::vector<double>> w4;
   std::vector<std::vector<double>> b4;
 
+  void initializeParameters();
   double randGaussian();
-  void adamGD(int imageAmount, std::vector<std::vector<std::vector<std::vector<double>>>> images, std::vector<int> labels, std::vector<double> &cost);
+  void adamGD(int imageAmount, std::vector<double> &cost);
   void conv(double &_loss, std::vector<std::vector<std::vector<std::vector<double>>>> &_df1, std::vector<std::vector<std::vector<std::vector<double>>>> &_df2, std::vector<std::vector<double>> &_dw3, std::vector<std::vector<double>> &_dw4, std::vector<std::vector<double>> &_db1, std::vector<std::vector<double>> &_db2, std::vector<std::vector<double>> &_db3, std::vector<std::vector<double>> &_db4, std::vector<std::vector<std::vector<double>>> image, std::vector<std::vector<double>> label);
+  void getMNISTData(std::vector<std::vector<std::vector<double>>> &d, int &l, int rowNum, std::string fileName);
 
 public:
-  CNN(std::vector<std::vector<int>> params);
+  CNN();
 
-  void train(int epochs, int imageAmount, std::vector<std::vector<std::vector<std::vector<double>>>> images, std::vector<int> labels);
+  void train(int epochs, int dataAmount);
 };
 
 #endif

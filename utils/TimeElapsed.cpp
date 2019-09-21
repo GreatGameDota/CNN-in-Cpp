@@ -23,7 +23,7 @@ void startTimer()
   start = PerformanceCounter();
 }
 
-void finish()
+void finish(long &_min, long &_sec, long &_milli)
 {
   long long finish = PerformanceCounter();
   double frequency = PerformanceFrequency();
@@ -35,6 +35,7 @@ void finish()
   milli = milli - 60000 * min;
   long sec = milli / 1000;
   milli = milli - 1000 * sec;
-  cout << fixed << setprecision(2);
-  cout << "\nTime elapsed: " << hr << "h:" << min << "m:" << sec << "s:" << milli << "ms" << endl;
+  _min = min;
+  _sec = sec;
+  _milli = milli;
 }
