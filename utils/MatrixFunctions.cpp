@@ -353,3 +353,266 @@ void add3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>
   }
   result = res;
 }
+
+void add4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrixA, vector<vector<vector<vector<double>>>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col * matrixA[0][0].size() * matrixA[0][0][0].size() != matrixB.size() * matrixB[0].size() * matrixB[0][0].size() * matrixB[0][0][0].size())
+  {
+    cout << "Add4D Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrixA[0][0].size(), vector<double>(matrixA[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrixA[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrixA[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrixA[i][j][k][l] + matrixB[i][j][k][l];
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void mult4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrix[0][0].size(), vector<double>(matrix[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrix[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrix[i][j][k][l] * n;
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void divi4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrix[0][0].size(), vector<double>(matrix[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrix[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrix[i][j][k][l] / n;
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void square4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrix)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrix[0][0].size(), vector<double>(matrix[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrix[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrix[i][j][k][l] * matrix[i][j][k][l];
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void addN4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrix[0][0].size(), vector<double>(matrix[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrix[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrix[i][j][k][l] + n;
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void divi4DMat(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrixA, vector<vector<vector<vector<double>>>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col * matrixA[0][0].size() * matrixA[0][0][0].size() != matrixB.size() * matrixB[0].size() * matrixB[0][0].size() * matrixB[0][0][0].size())
+  {
+    cout << "Divi4DMat Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrixA[0][0].size(), vector<double>(matrixA[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrixA[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrixA[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrixA[i][j][k][l] / matrixB[i][j][k][l];
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void sub4DMat(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrixA, vector<vector<vector<vector<double>>>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col * matrixA[0][0].size() * matrixA[0][0][0].size() != matrixB.size() * matrixB[0].size() * matrixB[0][0].size() * matrixB[0][0][0].size())
+  {
+    cout << "Sub4DMat Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrixA[0][0].size(), vector<double>(matrixA[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrixA[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrixA[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = matrixA[i][j][k][l] - matrixB[i][j][k][l];
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void sqrt4D(vector<vector<vector<vector<double>>>> &result, vector<vector<vector<vector<double>>>> matrix)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<vector<vector<double>>>> res(row, vector<vector<vector<double>>>(col, vector<vector<double>>(matrix[0][0].size(), vector<double>(matrix[0][0][0].size(), 0))));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      for (int k = 0; k < matrix[0][0].size(); k++)
+      {
+        for (int l = 0; l < matrix[0][0][0].size(); l++)
+        {
+          res[i][j][k][l] = sqrt(matrix[i][j][k][l]);
+        }
+      }
+    }
+  }
+  result = res;
+}
+
+void divi2D(vector<vector<double>> &result, vector<vector<double>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = matrix[i][j] / n;
+    }
+  }
+  result = res;
+}
+
+void addN2D(vector<vector<double>> &result, vector<vector<double>> matrix, double n)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = matrix[i][j] + n;
+    }
+  }
+  result = res;
+}
+
+void divi2DMat(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<vector<double>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col != matrixB.size() * matrixB[0].size())
+  {
+    cout << "Divi2DMat Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = matrixA[i][j] / matrixB[i][j];
+    }
+  }
+  result = res;
+}
+
+void sub2DMat(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<vector<double>> matrixB)
+{
+  int row = matrixA.size();
+  int col = matrixA[0].size();
+  if (row * col != matrixB.size() * matrixB[0].size())
+  {
+    cout << "Sub2DMat Function error: Dimensions are not the same" << endl;
+  }
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = matrixA[i][j] - matrixB[i][j];
+    }
+  }
+  result = res;
+}
+
+void sqrt2D(vector<vector<double>> &result, vector<vector<double>> matrix)
+{
+  int row = matrix.size();
+  int col = matrix[0].size();
+  vector<vector<double>> res(row, vector<double>(col, 0));
+  for (int i = 0; i < row; i++)
+  {
+    for (int j = 0; j < col; j++)
+    {
+      res[i][j] = sqrt(matrix[i][j]);
+    }
+  }
+  result = res;
+}

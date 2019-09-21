@@ -17,5 +17,18 @@ void meanAll(double &result, std::vector<std::vector<double>> matrix);
 void stdAll(double &result, std::vector<std::vector<double>> matrix);
 void mult3D(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> matrix, double n);
 void add3D(std::vector<std::vector<std::vector<double>>> &result, std::vector<std::vector<std::vector<double>>> matrixA, std::vector<std::vector<std::vector<double>>> matrixB);
+void add4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrixA, std::vector<std::vector<std::vector<std::vector<double>>>> matrixB);
+void mult4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrix, double n);
+void divi4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrix, double n);
+void square4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrix);
+void sqrt4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrix);
+void addN4D(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrix, double n);
+void divi4DMat(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrixA, std::vector<std::vector<std::vector<std::vector<double>>>> matrixB);
+void sub4DMat(std::vector<std::vector<std::vector<std::vector<double>>>> &result, std::vector<std::vector<std::vector<std::vector<double>>>> matrixA, std::vector<std::vector<std::vector<std::vector<double>>>> matrixB);
+void divi2D(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix, double n);
+void addN2D(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix, double n);
+void divi2DMat(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrixA, std::vector<std::vector<double>> matrixB);
+void sub2DMat(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrixA, std::vector<std::vector<double>> matrixB);
+void sqrt2D(std::vector<std::vector<double>> &result, std::vector<std::vector<double>> matrix);
 
 #endif
