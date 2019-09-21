@@ -364,6 +364,88 @@ CNN::CNN()
   initializeParameters();
 }
 
+void CNN::exportData(string fileName)
+{
+  ofstream file;
+  file.open(fileName);
+  for (int i = 0; i < f1.size(); i++)
+  {
+    for (int j = 0; j < f1[0].size(); j++)
+    {
+      for (int k = 0; k < f1[0][0].size(); k++)
+      {
+        for (int l = 0; l < f1[0][0][0].size(); l++)
+        {
+          file << f1[i][j][k][l] << ",";
+        }
+      }
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < f2.size(); i++)
+  {
+    for (int j = 0; j < f2[0].size(); j++)
+    {
+      for (int k = 0; k < f2[0][0].size(); k++)
+      {
+        for (int l = 0; l < f2[0][0][0].size(); l++)
+        {
+          file << f2[i][j][k][l] << ",";
+        }
+      }
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < w3.size(); i++)
+  {
+    for (int j = 0; j < w3[0].size(); j++)
+    {
+      file << w3[i][j] << ",";
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < w4.size(); i++)
+  {
+    for (int j = 0; j < w4[0].size(); j++)
+    {
+      file << w4[i][j] << ",";
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < b1.size(); i++)
+  {
+    for (int j = 0; j < b1[0].size(); j++)
+    {
+      file << b1[i][j] << ",";
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < b2.size(); i++)
+  {
+    for (int j = 0; j < b2[0].size(); j++)
+    {
+      file << b2[i][j] << ",";
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < b3.size(); i++)
+  {
+    for (int j = 0; j < b3[0].size(); j++)
+    {
+      file << b3[i][j] << ",";
+    }
+  }
+  file << "\n";
+  for (int i = 0; i < b4.size(); i++)
+  {
+    for (int j = 0; j < b4[0].size(); j++)
+    {
+      file << b4[i][j] << ",";
+    }
+  }
+  file.close();
+}
+
 void CNN::initializeParameters()
 {
   srand(time(NULL));

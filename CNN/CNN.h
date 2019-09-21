@@ -30,6 +30,7 @@ public:
   CNN();
 
   void train(int epochs, int dataAmount);
+  void exportData(std::string fileName);
 };
 
 #endif

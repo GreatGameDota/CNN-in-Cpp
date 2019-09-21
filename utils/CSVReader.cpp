@@ -31,4 +31,5 @@ void getRow(vector<string> &result, string fileName, int rowNum)
   if (count == 0)
     cout << "Record not found\n";
   result = row;
+  fin.close();
 }
