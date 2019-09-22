@@ -2,3 +2,4 @@
 utils/csv
 *.exe
 /.vscode
+*.txt

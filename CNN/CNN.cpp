@@ -344,6 +344,39 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   _db4 = db4;
 }
 
+void CNN::predict(vector<vector<double>>  &_probs, vector<vector<vector<double>>> image)
+{
+  vector<vector<vector<double>>> conv1;
+  convolution(conv1, image, f1, b1);
+  ReLU(conv1);
+  vector<vector<vector<double>>> conv2;
+  convolution(conv2, conv1, f2, b2);
+  ReLU(conv2);
+  vector<vector<vector<double>>> pooled;
+  maxpool(pooled, conv2);
+  vector<vector<double>> flat;
+  for (auto &row : pooled)
+  {
+    for (auto &col : row)
+    {
+      for (auto &ele : col)
+      {
+        flat.push_back({ele});
+      }
+    }
+  }
+  vector<vector<double>> z;
+  dot(z, w3, flat);
+  add(z, z, b3);
+  ReLU2D(z);
+  vector<vector<double>> out;
+  dot(out, w4, z);
+  add(out, out, b4);
+  vector<vector<double>> probs;
+  softmax(probs, out);
+  _probs = probs;
+}
+
 CNN::CNN()
 {
   params.push_back({8, 1, 5, 5}); // f1
