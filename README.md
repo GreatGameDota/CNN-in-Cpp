@@ -12,6 +12,12 @@ The dimensions of this model are:
 To run this program simply have MinGW C++ compiler installed and clone this repo:
 
 ```shell
-git clone <repo link>
-g++ *.cpp */*.cpp -o main
+> git clone <repo link>
+```
+
+Then build and run the exe:
+
+```shell
+> g++ *.cpp */*.cpp -o main
+> ./main
 ```

@@ -7,7 +7,7 @@ int main()
 {
   CNN model;
   int dataAmount = 100;
-  // model.importData("output.txt");
+  model.importData("output.txt");
   model.train(2, dataAmount);
   model.exportData("output.txt");
 
