@@ -12,6 +12,7 @@ void CNN::train(int epochs, int dataAmount)
   int epoch = 0;
   int batchSize = 32;
   vector<double> costs;
+  cout << "Training model with " << imageAmount << " images...\n\n";
   for (int i = 0; i < epochs; i++)
   {
     cout << "\rEpoch: 0 Cost: N/A | ";
@@ -68,7 +69,7 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
   {
     vector<vector<vector<double>>> image;
     int _label;
-    getMNISTData(image, _label, i, "mnist_train");
+    getMNISTData(image, _label, i, "csv/mnist_train.csv");
     vector<vector<double>> label(10, vector<double>(1, 0));
     label[_label][0] = 1;
     double loss;
@@ -364,10 +365,122 @@ CNN::CNN()
   initializeParameters();
 }
 
+void CNN::importData(string fileName)
+{
+  for (int i = 0; i < 8; i++)
+  {
+    vector<string> read;
+    getRow(read, fileName, i);
+    int index = 0;
+    if (i == 0)
+    {
+      for (int i = 0; i < f1.size(); i++)
+      {
+        for (int j = 0; j < f1[0].size(); j++)
+        {
+          for (int k = 0; k < f1[0][0].size(); k++)
+          {
+            for (int l = 0; l < f1[0][0][0].size(); l++)
+            {
+              f1[i][j][k][l] = stod(read[index]);
+              index++;
+            }
+          }
+        }
+      }
+    }
+    else if (i == 1)
+    {
+      for (int i = 0; i < f2.size(); i++)
+      {
+        for (int j = 0; j < f2[0].size(); j++)
+        {
+          for (int k = 0; k < f2[0][0].size(); k++)
+          {
+            for (int l = 0; l < f2[0][0][0].size(); l++)
+            {
+              f2[i][j][k][l] = stod(read[index]);
+              index++;
+            }
+          }
+        }
+      }
+    }
+    else if (i == 2)
+    {
+      for (int i = 0; i < w3.size(); i++)
+      {
+        for (int j = 0; j < w3[0].size(); j++)
+        {
+          w3[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+    else if (i == 3)
+    {
+      for (int i = 0; i < w4.size(); i++)
+      {
+        for (int j = 0; j < w4[0].size(); j++)
+        {
+          w4[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+    else if (i == 4)
+    {
+      for (int i = 0; i < b1.size(); i++)
+      {
+        for (int j = 0; j < b1[0].size(); j++)
+        {
+          b1[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+    else if (i == 5)
+    {
+      for (int i = 0; i < b2.size(); i++)
+      {
+        for (int j = 0; j < b2[0].size(); j++)
+        {
+          b2[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+    else if (i == 6)
+    {
+      for (int i = 0; i < b3.size(); i++)
+      {
+        for (int j = 0; j < b3[0].size(); j++)
+        {
+          b3[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+    else if (i == 7)
+    {
+      for (int i = 0; i < b4.size(); i++)
+      {
+        for (int j = 0; j < b4[0].size(); j++)
+        {
+          b4[i][j] = stod(read[index]);
+          index++;
+        }
+      }
+    }
+  }
+}
+
 void CNN::exportData(string fileName)
 {
+  remove(fileName.c_str());
   ofstream file;
   file.open(fileName);
+  file << "\n";
   for (int i = 0; i < f1.size(); i++)
   {
     for (int j = 0; j < f1[0].size(); j++)

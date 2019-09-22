@@ -6,7 +6,7 @@
 void getRow(vector<string> &result, string fileName, int rowNum)
 {
   fstream fin;
-  fin.open("csv/" + fileName + ".csv", ios::in);
+  fin.open(fileName, ios::in);
   int rollnum = rowNum, roll2, count = 0;
   vector<string> row;
   string line, word, temp;

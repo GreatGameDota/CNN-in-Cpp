@@ -31,6 +31,7 @@ public:
 
   void train(int epochs, int dataAmount);
   void exportData(std::string fileName);
+  void importData(std::string fileName);
 };
 
 #endif
