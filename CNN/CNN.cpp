@@ -104,8 +104,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult4D(temp, s1, beta2);
   divi4D(temp2, df1, imageAmount);
-  mult4D(temp2, temp2, 1 - beta2);
   square4D(temp2, temp2);
+  mult4D(temp2, temp2, 1 - beta2);
   add4D(s1, temp, temp2);
 
   mult4D(temp, v1, lr);
@@ -124,8 +124,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, bs1, beta2);
   divi2D(temp4, db1, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(bs1, temp3, temp4);
 
   mult(temp3, bv1, lr);
@@ -142,8 +142,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult4D(temp, s2, beta2);
   divi4D(temp2, df2, imageAmount);
-  mult4D(temp2, temp2, 1 - beta2);
   square4D(temp2, temp2);
+  mult4D(temp2, temp2, 1 - beta2);
   add4D(s2, temp, temp2);
 
   mult4D(temp, v2, lr);
@@ -160,8 +160,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, bs2, beta2);
   divi2D(temp4, db2, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(bs2, temp3, temp4);
 
   mult(temp3, bv2, lr);
@@ -178,8 +178,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, s3, beta2);
   divi2D(temp4, dw3, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(s3, temp3, temp4);
 
   mult(temp3, v3, lr);
@@ -196,8 +196,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, bs3, beta2);
   divi2D(temp4, db3, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(bs3, temp3, temp4);
 
   mult(temp3, bv3, lr);
@@ -214,8 +214,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, s4, beta2);
   divi2D(temp4, dw4, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(s4, temp3, temp4);
 
   mult(temp3, v4, lr);
@@ -232,8 +232,8 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
 
   mult(temp3, bs4, beta2);
   divi2D(temp4, db4, imageAmount);
-  mult(temp4, temp4, 1 - beta2);
   square(temp4, temp4);
+  mult(temp4, temp4, 1 - beta2);
   add(bs4, temp3, temp4);
 
   mult(temp3, bv4, lr);
@@ -344,7 +344,7 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   _db4 = db4;
 }
 
-void CNN::predict(vector<vector<double>>  &_probs, vector<vector<vector<double>>> image)
+void CNN::predict(vector<vector<double>> &_probs, vector<vector<vector<double>>> image)
 {
   vector<vector<vector<double>>> conv1;
   convolution(conv1, image, f1, b1);
