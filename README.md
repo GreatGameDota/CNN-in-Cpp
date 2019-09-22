@@ -6,3 +6,12 @@ This Network is built and trained for the MNIST data set.
 
 The dimensions of this model are:  
 8 filters for the 2 convolution layers then 1 maxpool before a 2 layer fully connected layer.  
+
+### Run this program
+
+To run this program simply have MinGW C++ compiler installed and clone this repo:
+
+```shell
+git clone <repo link>
+g++ *.cpp */*.cpp -o main
+```

@@ -1,5 +1,5 @@
 /csv
-utils/csv
-*.exe
+*/csv
+/*.exe
 /.vscode
-*.txt
+/*.txt
