@@ -18,6 +18,6 @@ To run this program simply have MinGW C++ compiler installed and clone this repo
 Then build and run the exe:
 
 ```shell
-> g++ *.cpp */*.cpp -o main
+> g++ *.cpp */*.cpp -o main -Ofast
 > ./main
 ```

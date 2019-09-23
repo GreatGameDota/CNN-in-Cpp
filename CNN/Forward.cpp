@@ -11,12 +11,12 @@ void convolution(vector<vector<vector<double>>> &result, vector<vector<vector<do
   int img2 = image[0].size();
   int img3 = image[0][0].size();
   int out_dim = (int)((img2 - filt3) / stride) + 1;
-  // cout << out_dim << endl;
   if (img1 != filt2)
   {
     cout << "ERROR: Dimensions of Filter and Image must match!" << endl;
   }
-  vector<vector<vector<double>>> res(filt1, vector<vector<double>>(out_dim, vector<double>(out_dim, 0)));
+  result = vector<vector<vector<double>>>(filt1, vector<vector<double>>(out_dim, vector<double>(out_dim, 0)));
+  // vector<vector<vector<double>>> res(filt1, vector<vector<double>>(out_dim, vector<double>(out_dim, 0)));
   for (int curr_f = 0; curr_f < filt1; curr_f++)
   {
     int curr_y = 0;
@@ -42,11 +42,13 @@ void convolution(vector<vector<vector<double>>> &result, vector<vector<vector<do
           }
           imageSection.push_back({temp2});
         }
+        // imageSection = vector<vector<vector<double>>>(filt2, vector<vector<double>>(5, vector<double>(5, 0)));
         vector<vector<vector<double>>> res2;
         multMatrices3D(res2, filter[curr_f], imageSection);
         sum3D(res2, res2, 0);
         res2[0][0][0] += bias[curr_f][0];
-        res[curr_f][out_y][out_x] = res2[0][0][0];
+        result[curr_f][out_y][out_x] = res2[0][0][0];
+        // result[curr_f][out_y][out_x] = 0;
 
         curr_x += stride;
         out_x++;
@@ -55,7 +57,7 @@ void convolution(vector<vector<vector<double>>> &result, vector<vector<vector<do
       out_y++;
     }
   }
-  result = res;
+  // result = res;
 }
 
 void ReLU(vector<vector<vector<double>>> &result)
@@ -96,7 +98,8 @@ void maxpool(vector<vector<vector<double>>> &result, vector<vector<vector<double
   int img3 = image[0][0].size();
   int w = (int)((img2 - size) / stride) + 1;
   int h = (int)((img3 - size) / stride) + 1;
-  vector<vector<vector<double>>> res(img1, vector<vector<double>>(h, vector<double>(w, 0)));
+  result = vector<vector<vector<double>>>(img1, vector<vector<double>>(h, vector<double>(w, 0)));
+  // vector<vector<vector<double>>> res(img1, vector<vector<double>>(h, vector<double>(w, 0)));
   for (int i = 0; i < img1; i++)
   {
     int curr_y = 0;
@@ -134,7 +137,7 @@ void maxpool(vector<vector<vector<double>>> &result, vector<vector<vector<double
             }
           }
         }
-        res[i][out_y][out_x] = max;
+        result[i][out_y][out_x] = max;
 
         curr_x += stride;
         out_x++;
@@ -143,31 +146,32 @@ void maxpool(vector<vector<vector<double>>> &result, vector<vector<vector<double
       out_y++;
     }
   }
-  result = res;
+  // result = res;
 }
 
 void softmax(vector<vector<double>> &result, vector<vector<double>> X)
 {
   int row = X.size();
   int col = X[0].size();
-  vector<vector<double>> res(row, vector<double>(col, 0));
+  result = vector<vector<double>>(row, vector<double>(col, 0));
+  // vector<vector<double>> res(row, vector<double>(col, 0));
   for (int i = 0; i < row; i++)
   {
     for (int j = 0; j < col; j++)
     {
-      res[i][j] = exp(X[i][j]);
+      result[i][j] = exp(X[i][j]);
     }
   }
   vector<vector<double>> sumAll;
-  sum(sumAll, res, 0);
+  sum(sumAll, result, 0);
   for (int i = 0; i < row; i++)
   {
     for (int j = 0; j < col; j++)
     {
-      res[i][j] /= sumAll[0][0];
+      result[i][j] /= sumAll[0][0];
     }
   }
-  result = res;
+  // result = res;
 }
 
 void categoricalCrossEntropy(double &result, vector<vector<double>> probs, vector<vector<double>> label)

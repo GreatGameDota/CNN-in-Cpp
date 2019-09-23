@@ -65,8 +65,10 @@ void CNN::adamGD(int imageAmount, vector<double> &cost)
   vector<vector<double>> bs3(params[6][0], vector<double>(params[6][1], 0));
   vector<vector<double>> bs4(params[7][0], vector<double>(params[7][1], 0));
 
+  cout << endl;
   for (int i = 0; i < imageAmount; i++)
   {
+    cout << i << endl;
     vector<vector<vector<double>>> image;
     int _label;
     getMNISTData(image, _label, i, "csv/mnist_train.csv");
@@ -285,8 +287,8 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   sub(dout, probs, label);
   vector<vector<double>> zT;
   transpose(zT, z);
-  vector<vector<double>> dW4;
-  dot(dW4, dout, zT);
+  // vector<vector<double>> dW4;
+  dot(_dw4, dout, zT);
   vector<vector<double>> db4;
   sum(db4, dout, 1);
   vector<vector<double>> w4T;
@@ -296,8 +298,8 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   ReLU2D(dz);
   vector<vector<double>> flatT;
   transpose(flatT, flat);
-  vector<vector<double>> dW3;
-  dot(dW3, dz, flatT);
+  // vector<vector<double>> dW3;
+  dot(_dw3, dz, flatT);
   vector<vector<double>> db3;
   sum(db3, dz, 1);
   vector<vector<double>> w3T;
@@ -325,9 +327,9 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
   vector<vector<vector<double>>> dconv2;
   maxpoolBackward(dconv2, dpool, conv2);
   vector<vector<vector<double>>> dconv1;
-  vector<vector<vector<vector<double>>>> df2;
+  // vector<vector<vector<vector<double>>>> df2;
   vector<vector<double>> db2;
-  convolutionBackward(dconv1, df2, db2, dconv2, conv1, f2);
+  convolutionBackward(dconv1, _df2, db2, dconv2, conv1, f2);
   vector<vector<vector<double>>> _;
   vector<vector<vector<vector<double>>>> df1;
   vector<vector<double>> db1;
@@ -335,9 +337,9 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
 
   _loss = loss;
   _df1 = df1;
-  _df2 = df2;
-  _dw3 = dW3;
-  _dw4 = dW4;
+  // _df2 = df2;
+  // _dw3 = dW3;
+  // _dw4 = dW4;
   _db1 = db1;
   _db2 = db2;
   _db3 = db3;
@@ -346,6 +348,7 @@ void CNN::conv(double &_loss, vector<vector<vector<vector<double>>>> &_df1, vect
 
 void CNN::predict(vector<vector<double>> &_probs, vector<vector<vector<double>>> image)
 {
+  // vector<vector<vector<double>>> conv1(8, vector<vector<double>>(24, vector<double>(24, 0)));
   vector<vector<vector<double>>> conv1;
   convolution(conv1, image, f1, b1);
   ReLU(conv1);

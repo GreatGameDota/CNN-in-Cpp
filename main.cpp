@@ -6,9 +6,9 @@
 int main()
 {
   CNN model;
-  int dataAmount = 100;
-  model.importData("output.txt");
-  model.train(2, dataAmount);
+  int dataAmount = 500;
+  // model.importData("output.txt");
+  model.train(1, dataAmount);
   model.exportData("output.txt");
 
   cout << "Test 1:" << endl;
@@ -16,8 +16,12 @@ int main()
   int label;
   model.getMNISTData(image, label, 0, "csv/mnist_test.csv");
   cout << "Correct output is: " << label << endl;
+  // startTimer();
   vector<vector<double>> probs;
   model.predict(probs, image);
+  // long min, sec, milli;
+  // finish(min, sec, milli);
+  // cout << min << "m " << sec << "s " << milli << "ms" << endl;
   cout << "Output: " << endl;
   int num = 0;
   for (auto &row : probs)

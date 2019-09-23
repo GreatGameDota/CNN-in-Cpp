@@ -8,7 +8,8 @@ void convolutionBackward(vector<vector<vector<double>>> &result, vector<vector<v
   int filt2 = filt[0].size();
   int filt3 = filt[0][0].size();
   int orig2 = conv_in[0].size();
-  vector<vector<vector<double>>> dout(conv_in.size(), vector<vector<double>>(orig2, vector<double>(conv_in[0][0].size(), 0)));
+  result = vector<vector<vector<double>>>(conv_in.size(), vector<vector<double>>(orig2, vector<double>(conv_in[0][0].size(), 0)));
+  // vector<vector<vector<double>>> dout(conv_in.size(), vector<vector<double>>(orig2, vector<double>(conv_in[0][0].size(), 0)));
   vector<vector<vector<vector<double>>>> dfilt(filt1, vector<vector<vector<double>>>(filt2, vector<vector<double>>(filt3, vector<double>(filt[0][0][0].size(), 0))));
   vector<vector<double>> dbias;
   for (int curr_f = 0; curr_f < filt1; curr_f++)
@@ -38,8 +39,8 @@ void convolutionBackward(vector<vector<vector<double>>> &result, vector<vector<v
         }
         vector<vector<vector<double>>> res;
         mult3D(res, imageSection, dconv_prev[curr_f][out_y][out_x]);
-        add3D(res, dfilt[curr_f], res);
-        dfilt[curr_f] = res;
+        add3D(dfilt[curr_f], dfilt[curr_f], res);
+        // dfilt[curr_f] = res;
         mult3D(res, filt[curr_f], dconv_prev[curr_f][out_y][out_x]);
         for (int k = 0; k < filt2; k++)
         {
@@ -47,7 +48,7 @@ void convolutionBackward(vector<vector<vector<double>>> &result, vector<vector<v
           {
             for (int j = curr_x, j2 = 0; j < curr_x + filt3; j++, j2++)
             {
-              dout[k][i][j] += res[k][i2][j2];
+              result[k][i][j] += res[k][i2][j2];
             }
           }
         }
@@ -62,7 +63,7 @@ void convolutionBackward(vector<vector<vector<double>>> &result, vector<vector<v
     sum(temp, dconv_prev[curr_f], 0);
     dbias.push_back({temp[0][0]});
   }
-  result = dout;
+  // result = dout;
   df = dfilt;
   db = dbias;
 }
@@ -71,7 +72,8 @@ void maxpoolBackward(vector<vector<vector<double>>> &result, vector<vector<vecto
 {
   int orig1 = orig.size();
   int orig2 = orig[0].size();
-  vector<vector<vector<double>>> dout(orig1, vector<vector<double>>(orig2, vector<double>(orig[0][0].size(), 0)));
+  result = vector<vector<vector<double>>>(orig1, vector<vector<double>>(orig2, vector<double>(orig[0][0].size(), 0)));
+  // vector<vector<vector<double>>> dout(orig1, vector<vector<double>>(orig2, vector<double>(orig[0][0].size(), 0)));
   for (int curr_c = 0; curr_c < orig1; curr_c++)
   {
     int curr_y = 0;
@@ -106,8 +108,8 @@ void maxpoolBackward(vector<vector<vector<double>>> &result, vector<vector<vecto
             }
           }
         }
-        dout[curr_c][curr_y + maxIndex[0]][curr_x + maxIndex[1]] = dpool[curr_c][out_y][out_x];
-        
+        result[curr_c][curr_y + maxIndex[0]][curr_x + maxIndex[1]] = dpool[curr_c][out_y][out_x];
+
         curr_x += stride;
         out_x++;
       }
@@ -115,5 +117,5 @@ void maxpoolBackward(vector<vector<vector<double>>> &result, vector<vector<vecto
       out_y++;
     }
   }
-  result = dout;
+  // result = dout;
 }

@@ -1,5 +1,6 @@
 #include "../common.h"
 #include "MatrixFunctions.h"
+#include <numeric>
 
 void dot(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<vector<double>> matrixB)
 {
@@ -11,7 +12,8 @@ void dot(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<
   {
     cout << "Dot Function error: Dimension Mismatch" << endl;
   }
-  vector<vector<double>> res(rowA, vector<double>(colB, 0));
+  result = vector<vector<double>>(rowA, vector<double>(colB, 0));
+  // vector<vector<double>> res(rowA, vector<double>(colB, 0));
   for (int i = 0; i < rowA; i++)
   {
     for (int j = 0; j < colB; j++)
@@ -21,10 +23,10 @@ void dot(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<
       {
         sum += matrixA[i][k] * matrixB[k][j];
       }
-      res[i][j] = sum;
+      result[i][j] = sum;
     }
   }
-  result = res;
+  // result = res;
 }
 
 void transpose(vector<vector<double>> &result, vector<vector<double>> matrix)
@@ -109,16 +111,17 @@ void multMatrices3D(vector<vector<vector<double>>> &result, vector<vector<vector
   {
     cout << "MultMatrices3D Function error: Dimensions are not the same" << endl;
   }
-  vector<vector<vector<double>>> res(rowA, vector<vector<double>>(colA, vector<double>(matrixA[0][0].size(), 0)));
+  result = vector<vector<vector<double>>>(rowA, vector<vector<double>>(colA, vector<double>(matrixA[0][0].size(), 0)));
+  // vector<vector<vector<double>>> res(rowA, vector<vector<double>>(colA, vector<double>(matrixA[0][0].size(), 0)));
   for (int i = 0; i < rowA; i++)
   {
     for (int j = 0; j < colA; j++)
     {
       for (int k = 0; k < matrixA[0][0].size(); k++)
-        res[i][j][k] = matrixA[i][j][k] * matrixB[i][j][k];
+        result[i][j][k] = matrixA[i][j][k] * matrixB[i][j][k];
     }
   }
-  result = res;
+  // result = res;
 }
 
 void add(vector<vector<double>> &result, vector<vector<double>> matrixA, vector<vector<double>> matrixB)
@@ -250,7 +253,8 @@ void sum3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>
 {
   int row = matrix[0].size();
   int col = matrix[0][0].size();
-  vector<vector<vector<double>>> res(1, vector<vector<double>>(1, vector<double>(1, 0)));
+  result = vector<vector<vector<double>>>(1, vector<vector<double>>(1, vector<double>(1, 0)));
+  // vector<vector<vector<double>>> res(1, vector<vector<double>>(1, vector<double>(1, 0)));
   double sum = 0;
   for (int i = 0; i < matrix.size(); i++)
   {
@@ -260,8 +264,8 @@ void sum3D(vector<vector<vector<double>>> &result, vector<vector<vector<double>>
         sum += matrix[i][j][k];
     }
   }
-  res[0][0][0] = sum;
-  result = res;
+  result[0][0][0] = sum;
+  // result = res;
 }
 
 void square(vector<vector<double>> &result, vector<vector<double>> matrix)
