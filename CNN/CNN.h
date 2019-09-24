@@ -7,9 +7,11 @@
 class CNN
 {
 private:
-  double lr{0.01};
+  double lr{.01};
   double beta1{.95};
   double beta2{.99};
+  int numFilter1{8};
+  int numFilter2{8};
   std::vector<std::vector<int>> params;
   std::vector<std::vector<std::vector<std::vector<double>>>> f1;
   std::vector<std::vector<double>> b1;

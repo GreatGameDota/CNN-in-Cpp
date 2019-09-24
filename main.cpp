@@ -6,9 +6,9 @@
 int main()
 {
   CNN model;
-  int dataAmount = 500;
-  // model.importData("output.txt");
-  model.train(1, dataAmount);
+  int dataAmount = 100;
+  model.importData("output.txt");
+  model.train(10, dataAmount);
   model.exportData("output.txt");
 
   cout << "Test 1:" << endl;

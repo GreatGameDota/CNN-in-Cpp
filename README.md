@@ -2,6 +2,8 @@
 
 Implemented following [Alejandro Escontrela](https://github.com/Alescontrela)'s Towards Data Science Medium Article ["Convolutional Neural Networks from the ground up"](https://towardsdatascience.com/convolutional-neural-networks-from-the-ground-up-c67bb41454e1) and [Python Implementation](https://github.com/Alescontrela/Numpy-CNN) on Github  
 
+<i>Disclaimer: This project is slow and was made mostly for fun and learning</i>
+
 This Network is built and trained for the MNIST data set.  
 
 The dimensions of this model are:  
